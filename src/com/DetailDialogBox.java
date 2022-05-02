@@ -13,6 +13,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -22,14 +25,15 @@ import javax.swing.UIManager;
 public class DetailDialogBox extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	private LinkedList<Contact> phonebook;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(LinkedList<Contact> phonebook, int index) {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			DetailDialogBox dialog = new DetailDialogBox();
+			DetailDialogBox dialog = new DetailDialogBox(phonebook, index);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -40,7 +44,12 @@ public class DetailDialogBox extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DetailDialogBox() {
+	public DetailDialogBox(LinkedList<Contact> phonebook, int index) {
+		this.phonebook = phonebook;
+
+		this.setTitle("Detail of Contact");
+		this.setIconImage(new ImageIcon(AboutUs.class.getResource("/com/assets/contact (1).png")).getImage());
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 551, 760);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,6 +67,11 @@ public class DetailDialogBox extends JDialog {
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
+				okButton.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						dispose();
+					}
+				});
 			}
 		}
 		{
@@ -150,47 +164,47 @@ public class DetailDialogBox extends JDialog {
 			remarkLabel.setBounds(27, 405, 134, 28);
 			formPanel.add(remarkLabel);
 			
-			JLabel showName = new JLabel("");
+			JLabel showName = new JLabel(phonebook.get(index).getName());
 			showName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showName.setBounds(171, 11, 336, 28);
 			formPanel.add(showName);
 			
-			JLabel showGender = new JLabel("");
+			JLabel showGender = new JLabel(phonebook.get(index).getGender());
 			showGender.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showGender.setBounds(171, 51, 336, 28);
 			formPanel.add(showGender);
 			
-			JLabel showDOB = new JLabel("");
+			JLabel showDOB = new JLabel(phonebook.get(index).getDobDate());
 			showDOB.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showDOB.setBounds(171, 91, 336, 28);
 			formPanel.add(showDOB);
 			
-			JLabel showMobilePhone = new JLabel("");
+			JLabel showMobilePhone = new JLabel(phonebook.get(index).getMobilePhone());
 			showMobilePhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showMobilePhone.setBounds(171, 131, 336, 28);
 			formPanel.add(showMobilePhone);
 			
-			JLabel showWorkPhone = new JLabel("");
+			JLabel showWorkPhone = new JLabel(phonebook.get(index).getWorkPhone());
 			showWorkPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showWorkPhone.setBounds(171, 170, 336, 28);
 			formPanel.add(showWorkPhone);
 			
-			JLabel showHomePhone = new JLabel("");
+			JLabel showHomePhone = new JLabel(phonebook.get(index).getHomePhone());
 			showHomePhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showHomePhone.setBounds(171, 209, 336, 28);
 			formPanel.add(showHomePhone);
 			
-			JLabel showEmailAddress = new JLabel("");
+			JLabel showEmailAddress = new JLabel(phonebook.get(index).getEmail());
 			showEmailAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showEmailAddress.setBounds(171, 248, 336, 28);
 			formPanel.add(showEmailAddress);
 			
-			JLabel showAddress = new JLabel("");
+			JLabel showAddress = new JLabel(phonebook.get(index).getAddress());
 			showAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showAddress.setBounds(171, 287, 336, 108);
 			formPanel.add(showAddress);
 			
-			JLabel showRemark = new JLabel("");
+			JLabel showRemark = new JLabel(phonebook.get(index).getRemark());
 			showRemark.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			showRemark.setBounds(171, 405, 336, 155);
 			formPanel.add(showRemark);

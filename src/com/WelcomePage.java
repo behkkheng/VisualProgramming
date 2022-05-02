@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class WelcomePage extends JFrame {
 
@@ -25,6 +27,7 @@ public class WelcomePage extends JFrame {
 				try {
 					WelcomePage frame = new WelcomePage();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,7 +58,12 @@ public class WelcomePage extends JFrame {
 		background.setIcon(new ImageIcon(WelcomePage.class.getResource("/com/assets/telephone (1).jpg")));
 		background.setBounds(0, 0, 1206, 648);
 		contentPane.add(background);
-		
+		background.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Menu.main(null);
+				dispose();
+			}
+		});
 		
 	}
 

@@ -3,16 +3,11 @@ package com;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
 
 public class AboutUs extends JDialog {
 
@@ -26,6 +21,7 @@ public class AboutUs extends JDialog {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			AboutUs dialog = new AboutUs();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,6 +32,8 @@ public class AboutUs extends JDialog {
 	 * Create the dialog.
 	 */
 	public AboutUs() {
+		this.setTitle("About Us");
+		this.setIconImage(new ImageIcon(AboutUs.class.getResource("/com/assets/contact (1).png")).getImage());
 		setBounds(100, 100, 557, 345);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 541, 247);
@@ -60,6 +58,7 @@ public class AboutUs extends JDialog {
 				okButton.setSize(100, 30);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						dispose();
 					}
 				});
 				buttonPane.setLayout(null);

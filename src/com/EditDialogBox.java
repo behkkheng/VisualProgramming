@@ -1,25 +1,12 @@
 package com;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Font;
-import java.util.Calendar;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.util.Vector;
-
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
 
 public class EditDialogBox extends JDialog {
 
@@ -30,15 +17,27 @@ public class EditDialogBox extends JDialog {
 	private JTextField homeTextField;
 	private JTextField emailAddressTextField;
 
+	private LinkedList<Contact> phonebook;
+
+	private int index;
+
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(LinkedList<Contact> phonebook, int index) {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			EditDialogBox dialog = new EditDialogBox();
+			EditDialogBox dialog = new EditDialogBox(phonebook, index);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setPhonebook(phonebook);
+			//debug
+				System.out.println("From EditDialogBox");
+				for (int i=0; i< phonebook.size();i++){
+					System.out.println(i+". "+phonebook.get(i).getName());
+				}
+			dialog.setIndex(index);
+			System.out.println("index: "+index);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,33 +46,22 @@ public class EditDialogBox extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public EditDialogBox() {
+	public EditDialogBox(LinkedList<Contact> phonebook, int index) {
+		//debug
+		setPhonebook(phonebook);
+		setIndex(index);
+		System.out.println("From EditDialogBox");
+		for (int i=0; i< phonebook.size();i++){
+			System.out.println(i+". "+phonebook.get(i).getName());
+		}
+		this.setTitle("Edit Contact");
+		this.setIconImage(new ImageIcon(AboutUs.class.getResource("/com/assets/contact (1).png")).getImage());
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 629, 681);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBounds(10, 591, 610, 46);
-			contentPanel.add(buttonPane);
-			buttonPane.setLayout(null);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				okButton.setBounds(185, 10, 100, 30);
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				cancelButton.setBounds(325, 10, 100, 30);
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
 		
 		JPanel titlePanel = new JPanel();
 		titlePanel.setBounds(10, 10, 610, 85);
@@ -101,6 +89,7 @@ public class EditDialogBox extends JDialog {
 		nameTextField.setBounds(171, 10, 377, 30);
 		formPanel.add(nameTextField);
 		nameTextField.setColumns(10);
+		nameTextField.setText(phonebook.get(index).getName());
 		
 		JLabel nameLabel = new JLabel("Name:");
 		nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -120,6 +109,7 @@ public class EditDialogBox extends JDialog {
 		genderComboBox.setModel(new DefaultComboBoxModel(new String[] {"Please choose a gender", "Male", "Female"}));
 		genderComboBox.setBounds(171, 50, 201, 30);
 		formPanel.add(genderComboBox);
+		genderComboBox.setSelectedItem(phonebook.get(index).getGender());
 		
 		JLabel dobLabel = new JLabel("DOB:");
 		dobLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -138,6 +128,7 @@ public class EditDialogBox extends JDialog {
 		dayComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		dayComboBox.setBounds(171, 90, 79, 30);
 		formPanel.add(dayComboBox);
+		dayComboBox.setSelectedItem(phonebook.get(index).getDobDay());
 		
 		JComboBox monthComboBox = new JComboBox();
 		monthComboBox.setToolTipText("Month of Birth");
@@ -150,6 +141,7 @@ public class EditDialogBox extends JDialog {
         monthComboBox.setModel(new DefaultComboBoxModel(month));
 		monthComboBox.setBounds(260, 90, 79, 30);
 		formPanel.add(monthComboBox);
+		monthComboBox.setSelectedItem(phonebook.get(index).getDobMonth());
 		
 		JComboBox yearComboBox = new JComboBox();  
 		yearComboBox.setToolTipText("Year of Birth");
@@ -162,6 +154,7 @@ public class EditDialogBox extends JDialog {
         yearComboBox.setModel(new DefaultComboBoxModel(year));
 		yearComboBox.setBounds(349, 90, 79, 30);
 		formPanel.add(yearComboBox);
+		yearComboBox.setSelectedItem(phonebook.get(index).getDobYear());
 		
 		JLabel hpNo1Label = new JLabel("Mobile Phone No.:");
 		hpNo1Label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -175,6 +168,7 @@ public class EditDialogBox extends JDialog {
 		mobileTextField.setColumns(10);
 		mobileTextField.setBounds(171, 130, 377, 30);
 		formPanel.add(mobileTextField);
+		mobileTextField.setText(phonebook.get(index).getMobilePhone());
 		
 		JLabel workLabel = new JLabel("Work Phone No.:");
 		workLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -188,6 +182,7 @@ public class EditDialogBox extends JDialog {
 		workTextField.setColumns(10);
 		workTextField.setBounds(171, 169, 377, 30);
 		formPanel.add(workTextField);
+		workTextField.setText(phonebook.get(index).getWorkPhone());
 		
 		JLabel homeLabel = new JLabel("Home Phone No.:");
 		homeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -201,6 +196,7 @@ public class EditDialogBox extends JDialog {
 		homeTextField.setColumns(10);
 		homeTextField.setBounds(171, 208, 377, 30);
 		formPanel.add(homeTextField);
+		homeTextField.setText(phonebook.get(index).getHomePhone());
 		
 		JLabel emailAddress = new JLabel("Email Address:");
 		emailAddress.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -214,6 +210,7 @@ public class EditDialogBox extends JDialog {
 		emailAddressTextField.setColumns(10);
 		emailAddressTextField.setBounds(171, 247, 377, 30);
 		formPanel.add(emailAddressTextField);
+		emailAddressTextField.setText(phonebook.get(index).getEmail());
 		
 		JLabel addressLabel = new JLabel("Address:");
 		addressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -227,6 +224,7 @@ public class EditDialogBox extends JDialog {
 		addressTextArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		addressTextArea.setBounds(171, 287, 377, 90);
 		formPanel.add(addressTextArea);
+		addressTextArea.setText(phonebook.get(index).getAddress());
 		
 		JLabel remarkLabel = new JLabel("Remark:");
 		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -240,5 +238,62 @@ public class EditDialogBox extends JDialog {
 		remarkTextArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		remarkTextArea.setBounds(171, 387, 377, 90);
 		formPanel.add(remarkTextArea);
+		remarkTextArea.setText(phonebook.get(index).getRemark());
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setBounds(10, 591, 610, 46);
+		contentPanel.add(buttonPane);
+		buttonPane.setLayout(null);
+
+		JButton okButton = new JButton("OK");
+		okButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		okButton.setBounds(185, 10, 100, 30);
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		okButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Operation operation = new Operation(phonebook);
+				operation.editContact(index,nameTextField.getText(), (String) genderComboBox.getSelectedItem(),(Integer) dayComboBox.getSelectedItem(),(Integer) monthComboBox.getSelectedItem(),(Integer)yearComboBox.getSelectedItem(), mobileTextField.getText(),workTextField.getText(),homeTextField.getText(),emailAddressTextField.getText(),addressTextArea.getText(),remarkTextArea.getText(), Integer.valueOf(phonebook.get(index).getId()) );
+				LinkedList<Contact> result = operation.returnLinkedList();
+				setPhonebook(result);
+				dispose();
+			}
+		});
+
+
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cancelButton.setBounds(325, 10, 100, 30);
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+		cancelButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+
+	}
+
+	public void setPhonebook(LinkedList<Contact> phonebook) {
+		//debug
+		System.out.println("From EditDialogBox setPhoneBefore");
+		for (int i=0; i< phonebook.size();i++){
+			System.out.println(i+". "+phonebook.get(i).getName());
+		}
+		this.phonebook = phonebook;
+		//debug
+		System.out.println("From EditDialogBox setPhoneAfter");
+		for (int i=0; i< phonebook.size();i++){
+			System.out.println(i+". "+phonebook.get(i).getName());
+		}
+	}
+
+	public LinkedList<Contact> returnLinkedList(){
+		return this.phonebook;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }
