@@ -2,6 +2,7 @@ package com;
 
 import java.awt.EventQueue;
 
+import javax.management.openmbean.OpenMBeanAttributeInfo;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -83,10 +84,10 @@ public class Menu extends JFrame {
 
 
 		/*Operation operation = new Operation();
-		LinkedList<Contact> phonebook = operation.createNewLinkedList();*/
+		LinkedList<Contact> phonebook = operation.createNewLinkedList();
 		Contact contact = new Contact();
 		contact.setAttribute("Beh","Male",11,9,2000,"01137504036","043328811","043238811","behkkheng@gmail.com","24, Lorong Kapal Off Jalan Chain Ferry, 12100, Butterworth",null);
-		phonebook.add(contact);
+		phonebook.add(contact);*/
 
 		/*String column[]={"Name","Gender","DOB","Mobile Phone","Work Phone","Home Phone","Email","Address","id"};
 		String[][] data = new String[phonebook.size()][10];
@@ -167,17 +168,11 @@ public class Menu extends JFrame {
 		operationPanel.add(editButton);
 		editButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//debug
-				System.out.println("From Menu");
-				for (int i=0; i< phonebook.size();i++){
-					System.out.println(i+". "+phonebook.get(i).getName());
-				}
 				//get id of selected row
 				int selected_row = table.getSelectedRow();
 				System.out.println("row: "+selected_row);
 				int id_column = 8;
 				String row_id = (String) table.getValueAt(selected_row,id_column);
-				System.out.println("id: "+row_id);
 				EditDialogBox.main(phonebook,Integer.valueOf(row_id));
 			}
 		});
@@ -187,6 +182,19 @@ public class Menu extends JFrame {
 		deleteButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		deleteButton.setBounds(10, 175, 210, 45);
 		operationPanel.add(deleteButton);
+		deleteButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				//get id of selected row
+				int selected_row = table.getSelectedRow();
+				int id_column = 8;
+				int row_id = Integer.parseInt((String) table.getValueAt(selected_row,id_column));
+				int deleteDialog = JOptionPane.showConfirmDialog(null,"Are you sure want to delete "+phonebook.get(row_id).getName(), "Delete Contact",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+				if (deleteDialog == JOptionPane.OK_OPTION){
+					Operation operation = new Operation(phonebook);
+					operation.deleteContact(row_id);
+				}
+			}
+		});
 
 		JButton sortButton = new JButton("Refresh");
 		sortButton.setToolTipText("Sort contacts according to attributes.");
@@ -209,8 +217,14 @@ public class Menu extends JFrame {
 		operationPanel.add(importButton);
 		importButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//debug
-				;
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int returnVal = chooser.showOpenDialog(importButton);
+				if(returnVal == JFileChooser.APPROVE_OPTION) {
+					String fileLocation = chooser.getSelectedFile().getAbsolutePath();
+					Operation operation = new Operation(phonebook);
+					operation.importContact(fileLocation);
+				}
 			}
 		});
 
@@ -221,11 +235,7 @@ public class Menu extends JFrame {
 		operationPanel.add(exportButton);
 		exportButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//debug
-				System.out.println("From MenuNow");
-				for (int i=0; i< phonebook.size();i++){
-					System.out.println(i+". "+phonebook.get(i).getName());
-				}
+				ExportDialogBox.main(phonebook);
 			}
 		});
 

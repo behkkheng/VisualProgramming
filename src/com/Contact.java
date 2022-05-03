@@ -45,6 +45,10 @@ public class Contact {
         this.id = 1;
     }
 
+    public void setID(int id){
+        this.id = id;
+    }
+
     public String getDobDate() {
         return dobDate;
     }

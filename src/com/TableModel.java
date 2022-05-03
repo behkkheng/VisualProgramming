@@ -10,7 +10,7 @@ public class TableModel extends AbstractTableModel {
     private LinkedList<Contact> phonebook;
 
     private String[][] data;
-    private String column[]={"Name","Gender","DOB","Mobile Phone","Work Phone","Home Phone","Email","Address","id"};
+    private String column[]={"Name","Gender","DOB","Mobile Phone","Work Phone","Home Phone","Email","Address","Id"};
 
     public TableModel(LinkedList<Contact> phonebook){
         this.phonebook = phonebook;
