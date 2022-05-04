@@ -23,7 +23,11 @@ public class Contact {
         String month = Integer.toString(dobMonth);
         String year = Integer.toString(dobYear);
 
-        return day + "/" + month + "/" + year;
+        if (dobDay == 0 || dobMonth == 0 || dobYear ==0){
+            return "0/0/0";
+        } else {
+            return day + "/" + month + "/" + year;
+        }
     }
 
     public void setId(int id) {

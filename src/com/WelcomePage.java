@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class WelcomePage extends JFrame {
 
@@ -28,6 +30,7 @@ public class WelcomePage extends JFrame {
 					WelcomePage frame = new WelcomePage();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,6 +42,8 @@ public class WelcomePage extends JFrame {
 	 * Create the frame.
 	 */
 	public WelcomePage() {
+		this.setTitle("Phone Book Management System");
+		this.setIconImage(new ImageIcon(WelcomePage.class.getResource("/com/assets/contact (1).png")).getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1220, 685);
 		contentPane = new JPanel();

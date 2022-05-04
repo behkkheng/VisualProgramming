@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableColumn;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,18 +23,18 @@ public class CreateDialogBox extends JDialog {
 	private JTextField emailAddressTextField;
 
 	private LinkedList<Contact> phonebook;
+	private TableModel tableModel;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(LinkedList<Contact> phonebook) {
+	public static void main(LinkedList<Contact> phonebook, TableModel tableModel) {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			CreateDialogBox dialog = new CreateDialogBox();
-
+			CreateDialogBox dialog = new CreateDialogBox(phonebook, tableModel);
+			dialog.setResizable(false);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			dialog.setPhonebook(phonebook);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,12 +44,14 @@ public class CreateDialogBox extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CreateDialogBox() {
+	public CreateDialogBox(LinkedList<Contact> phonebook, TableModel tableModel) {
 
+		this.phonebook = phonebook;
+		this.tableModel = tableModel;
 		this.setTitle("Create New");
 		this.setIconImage(new ImageIcon(AboutUs.class.getResource("/com/assets/contact (1).png")).getImage());
-		setLocationRelativeTo(null);
 		setBounds(100, 100, 629, 681);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -65,7 +68,7 @@ public class CreateDialogBox extends JDialog {
 		titlePanel.add(icon);
 
 		JLabel createLabel = new JLabel("Create New");
-		createLabel.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		createLabel.setFont(new RobotoFont(36).boldRoboto());
 		createLabel.setBounds(242, 10, 194, 51);
 		titlePanel.add(createLabel);
 
@@ -76,54 +79,53 @@ public class CreateDialogBox extends JDialog {
 
 		nameTextField = new JTextField();
 		nameTextField.setToolTipText("Name of the contacts.");
-		nameTextField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		nameTextField.setFont(new RobotoFont(16).lightRoboto());
 		nameTextField.setBounds(171, 10, 377, 30);
-		nameTextField.setText("diksfavhujgds");
 		formPanel.add(nameTextField);
 		nameTextField.setColumns(10);
 
 		JLabel nameLabel = new JLabel("Name:");
-		nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		nameLabel.setFont(new RobotoFont(16).mediumRoboto());
 		nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		nameLabel.setBounds(104, 11, 57, 28);
 		formPanel.add(nameLabel);
 
 		JLabel genderLabel = new JLabel("Gender:");
 		genderLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		genderLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		genderLabel.setFont(new RobotoFont(16).mediumRoboto());
 		genderLabel.setBounds(104, 51, 57, 28);
 		formPanel.add(genderLabel);
 
 		JComboBox genderComboBox = new JComboBox();
 		genderComboBox.setToolTipText("Please choose a gender.");
-		genderComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		genderComboBox.setModel(new DefaultComboBoxModel(new String[] {"Please choose a gender", "Male", "Female"}));
+		genderComboBox.setFont(new RobotoFont(16).mediumRoboto());
+		genderComboBox.setModel(new DefaultComboBoxModel(new String[] {"Please choose a gender.", "Male", "Female"}));
 		genderComboBox.setBounds(171, 50, 201, 30);
 		formPanel.add(genderComboBox);
 
 		JLabel dobLabel = new JLabel("DOB:");
 		dobLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		dobLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		dobLabel.setFont(new RobotoFont(16).mediumRoboto());
 		dobLabel.setBounds(104, 91, 57, 28);
 		formPanel.add(dobLabel);
 
 		JComboBox dayComboBox = new JComboBox();
 		dayComboBox.setToolTipText("Day of Birth");
 		Vector day=new Vector();
-		//day.add("Day");
+		day.add("Day");
 		for (int i = 1; i <= 31; i++) {
 			day.add(i);
 		}
 		dayComboBox.setModel(new DefaultComboBoxModel(day));
-		dayComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		dayComboBox.setFont(new RobotoFont(16).mediumRoboto());
 		dayComboBox.setBounds(171, 90, 79, 30);
 		formPanel.add(dayComboBox);
 
 		JComboBox monthComboBox = new JComboBox();
 		monthComboBox.setToolTipText("Month of Birth");
-		monthComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		monthComboBox.setFont(new RobotoFont(16).mediumRoboto());
 		Vector month=new Vector();
-		//month.add("Month");
+		month.add("Month");
 		for (int i = 1; i <= 12; i++) {
 			month.add(i);
 		}
@@ -133,9 +135,9 @@ public class CreateDialogBox extends JDialog {
 
 		JComboBox yearComboBox = new JComboBox();
 		yearComboBox.setToolTipText("Year of Birth");
-		yearComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		yearComboBox.setFont(new RobotoFont(16).mediumRoboto());
 		Vector year=new Vector();
-		//year.add("Year");
+		year.add("Year");
 		for (int i = 2022; i >= 1930; i--) {
 			year.add(i);
 		}
@@ -145,79 +147,79 @@ public class CreateDialogBox extends JDialog {
 
 		JLabel hpNo1Label = new JLabel("Mobile Phone No.:");
 		hpNo1Label.setHorizontalAlignment(SwingConstants.RIGHT);
-		hpNo1Label.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		hpNo1Label.setFont(new RobotoFont(16).mediumRoboto());
 		hpNo1Label.setBounds(10, 131, 151, 28);
 		formPanel.add(hpNo1Label);
 
 		mobileTextField = new JTextField();
 		mobileTextField.setToolTipText("Mobile phone number.");
-		mobileTextField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		mobileTextField.setFont(new RobotoFont(16).lightRoboto());
 		mobileTextField.setColumns(10);
 		mobileTextField.setBounds(171, 130, 377, 30);
 		formPanel.add(mobileTextField);
 
 		JLabel workLabel = new JLabel("Work Phone No.:");
 		workLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		workLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		workLabel.setFont(new RobotoFont(16).mediumRoboto());
 		workLabel.setBounds(10, 170, 151, 28);
 		formPanel.add(workLabel);
 
 		workTextField = new JTextField();
 		workTextField.setToolTipText("Work phone number");
-		workTextField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		workTextField.setFont(new RobotoFont(16).lightRoboto());
 		workTextField.setColumns(10);
 		workTextField.setBounds(171, 169, 377, 30);
 		formPanel.add(workTextField);
 
 		JLabel homeLabel = new JLabel("Home Phone No.:");
 		homeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		homeLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		homeLabel.setFont(new RobotoFont(16).mediumRoboto());
 		homeLabel.setBounds(10, 209, 151, 28);
 		formPanel.add(homeLabel);
 
 		homeTextField = new JTextField();
 		homeTextField.setToolTipText("Home phone number.");
-		homeTextField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		homeTextField.setFont(new RobotoFont(16).lightRoboto());
 		homeTextField.setColumns(10);
 		homeTextField.setBounds(171, 208, 377, 30);
 		formPanel.add(homeTextField);
 
 		JLabel emailAddress = new JLabel("Email Address:");
 		emailAddress.setHorizontalAlignment(SwingConstants.RIGHT);
-		emailAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		emailAddress.setFont(new RobotoFont(16).mediumRoboto());
 		emailAddress.setBounds(27, 248, 134, 28);
 		formPanel.add(emailAddress);
 
 		emailAddressTextField = new JTextField();
 		emailAddressTextField.setToolTipText("Email address.");
-		emailAddressTextField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		emailAddressTextField.setFont(new RobotoFont(16).lightRoboto());
 		emailAddressTextField.setColumns(10);
 		emailAddressTextField.setBounds(171, 247, 377, 30);
 		formPanel.add(emailAddressTextField);
 
 		JLabel addressLabel = new JLabel("Address:");
 		addressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		addressLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		addressLabel.setFont(new RobotoFont(16).mediumRoboto());
 		addressLabel.setBounds(27, 287, 134, 28);
 		formPanel.add(addressLabel);
 
 		JTextArea addressTextArea = new JTextArea();
 		addressTextArea.setToolTipText("Address of home.");
 		addressTextArea.setLineWrap(true);
-		addressTextArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
+		addressTextArea.setFont(new RobotoFont(16).lightRoboto());
 		addressTextArea.setBounds(171, 287, 377, 90);
 		formPanel.add(addressTextArea);
 
 		JLabel remarkLabel = new JLabel("Remark:");
 		remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		remarkLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		remarkLabel.setFont(new RobotoFont(16).mediumRoboto());
 		remarkLabel.setBounds(27, 387, 134, 28);
 		formPanel.add(remarkLabel);
 
 		JTextArea remarkTextArea = new JTextArea();
 		remarkTextArea.setToolTipText("Remarks.");
 		remarkTextArea.setLineWrap(true);
-		remarkTextArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
+		remarkTextArea.setFont(new RobotoFont(16).lightRoboto());
 		remarkTextArea.setBounds(171, 387, 377, 90);
 		formPanel.add(remarkTextArea);
 
@@ -227,7 +229,7 @@ public class CreateDialogBox extends JDialog {
 		buttonPane.setLayout(null);
 
 		JButton okButton = new JButton("OK");
-		okButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		okButton.setFont(new RobotoFont(16).mediumRoboto());
 		okButton.setBounds(185, 10, 100, 30);
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
@@ -236,21 +238,80 @@ public class CreateDialogBox extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				Operation operation = new Operation(phonebook);
 				int id = -1;
-				operation.createContact(nameTextField.getText(), (String) genderComboBox.getSelectedItem(), (Integer) dayComboBox.getSelectedItem(),(Integer) monthComboBox.getSelectedItem(),(Integer)yearComboBox.getSelectedItem(), mobileTextField.getText(),workTextField.getText(),homeTextField.getText(),emailAddressTextField.getText(),addressTextArea.getText(),remarkTextArea.getText(),id);
-				LinkedList<Contact> result = operation.returnLinkedList();
-				setPhonebook(result);
+				String name = nameTextField.getText();
+				String gender = genderComboBox.getSelectedItem().toString();
+				String dayString = dayComboBox.getSelectedItem().toString();
+				String monthString = monthComboBox.getSelectedItem().toString();
+				String yearString = yearComboBox.getSelectedItem().toString();
+				int dayVariable = 0;
+				int monthVariable = 0;
+				int yearVariable = 0;
+				String mobilePhone = mobileTextField.getText();
+				String workPhone = workTextField.getText();
+				String homePhone = homeTextField.getText();
+				String email = emailAddressTextField.getText();
+				String address = addressTextArea.getText();
+				String remark = remarkTextArea.getText();
 
-				//debug
-				/*System.out.println("From CreateDialogBox");
-				for (int i=0; i< phonebook.size();i++){
-					System.out.println(i+". "+phonebook.get(i).getName());
-				}*/
-				dispose();
+				if (name.equals("")){
+					name = " ";
+				}
+				if (gender.equals("Please choose a gender.")){
+					gender = "Unknown";
+				}
+				if ((!dayString.equals("Day"))){
+					dayVariable = Integer.parseInt(dayString);
+				}
+				if ((!monthString.equals("Month"))){
+					monthVariable = Integer.parseInt(monthString);
+				}
+				if ((!yearString.equals("Year"))){
+					yearVariable = Integer.parseInt(yearString);
+				}
+				if (dayVariable == 0 || monthVariable == 0 || yearVariable == 0){
+					dayVariable = 0;
+					monthVariable = 0;
+					yearVariable = 0;
+				}
+				if (mobilePhone.equals("")){
+					mobilePhone = " ";
+				}
+				if (workPhone.equals("")){
+					workPhone = " ";
+				}
+				if (homePhone.equals("")){
+					homePhone = " ";
+				}
+				if (email.equals("")){
+					email = " ";
+				}
+				if (address.equals("")){
+					address = " ";
+				}
+				if (remark.equals("")){
+					remark = " ";
+				}
+
+				if (name.equals(" ") && gender.equals("Unknown") && dayVariable==0 && monthVariable==0 && yearVariable==0 && mobilePhone.equals(" ") && workPhone.equals(" ") && homePhone.equals(" ") && email.equals(" ") && address.equals(" ") && remark.equals(" ")){
+					JOptionPane.showMessageDialog(null,"The contact did not created because all attributes is empty.","Warning",JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				}else {
+					try{
+						operation.createContact(name, gender, dayVariable,monthVariable,yearVariable, mobilePhone,workPhone,homePhone,email,address,remark,id);
+						tableModel.setRowCount();
+						tableModel.fireTableStructureChanged();
+						dispose();
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null,"Error occured when contact is created, the contact is not created. Please try again.","Warning",JOptionPane.WARNING_MESSAGE);
+						throw new RuntimeException(ex);
+					}
+				}
+
 			}
 		});
 
 		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cancelButton.setFont(new RobotoFont(16).mediumRoboto());
 		cancelButton.setBounds(325, 10, 100, 30);
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
@@ -259,14 +320,6 @@ public class CreateDialogBox extends JDialog {
 				dispose();
 			}
 		});
-	}
-
-	public void setPhonebook(LinkedList<Contact> phonebook) {
-		this.phonebook = phonebook;
-	}
-
-	public LinkedList<Contact> returnLinkedList(){
-		return this.phonebook;
 	}
 
 }

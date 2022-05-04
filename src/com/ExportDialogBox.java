@@ -16,8 +16,8 @@ public class ExportDialogBox extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private LinkedList<Contact> phonebook;
-	private String fileFormat;
-	private String fileLocation;
+	private String fileFormat = "Select a format.";
+	private String fileLocation = "";
 
 	/**
 	 * Launch the application.
@@ -28,6 +28,7 @@ public class ExportDialogBox extends JDialog {
 			ExportDialogBox dialog = new ExportDialogBox(phonebook);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setResizable(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,9 +40,9 @@ public class ExportDialogBox extends JDialog {
 	public ExportDialogBox(LinkedList<Contact> phonebook) {
 		this.phonebook = phonebook;
 		this.setTitle("Export Contact");
-		this.setIconImage(new ImageIcon(AboutUs.class.getResource("/com/assets/contact (1).png")).getImage());
-		this.setLocationRelativeTo(null);
+		this.setIconImage(new ImageIcon(ExportDialogBox.class.getResource("/com/assets/contact (1).png")).getImage());
 		setBounds(100, 100, 640, 325);
+		this.setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -58,7 +59,7 @@ public class ExportDialogBox extends JDialog {
 		titlePanel.add(sortIcon);
 
 		JLabel exportLabel = new JLabel("Export");
-		exportLabel.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		exportLabel.setFont(new RobotoFont(36).boldRoboto());
 		exportLabel.setBounds(294, 10, 109, 60);
 		titlePanel.add(exportLabel);
 
@@ -69,19 +70,19 @@ public class ExportDialogBox extends JDialog {
 
 		JLabel formatLabel = new JLabel("Export format:");
 		formatLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		formatLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		formatLabel.setFont(new RobotoFont(20).mediumRoboto());
 		formatLabel.setBounds(105, 10, 190, 50);
 		panel.add(formatLabel);
 
 
 		JLabel exportLocationLabel = new JLabel("Export to:");
 		exportLocationLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		exportLocationLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		exportLocationLabel.setFont(new RobotoFont(20).mediumRoboto());
 		exportLocationLabel.setBounds(105, 70, 190, 50);
 		panel.add(exportLocationLabel);
 
 		JLabel validLabel = new JLabel("Location valid.");
-		validLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		validLabel.setFont(new RobotoFont(16).mediumRoboto());
 		validLabel.setBounds(460, 82, 111, 30);
 		panel.add(validLabel);
 		validLabel.setVisible(false);
@@ -94,14 +95,14 @@ public class ExportDialogBox extends JDialog {
 			
 		JComboBox fileFormatComboBox = new JComboBox();
 		fileFormatComboBox.setToolTipText("Select a format for export file.");
-		fileFormatComboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		fileFormatComboBox.setModel(new DefaultComboBoxModel(new String[] {"Select a format", "txt", "csv"}));
+		fileFormatComboBox.setFont(new RobotoFont(16).mediumRoboto());
+		fileFormatComboBox.setModel(new DefaultComboBoxModel(new String[] {"Select a format.", "txt", "csv"}));
 		fileFormatComboBox.setBounds(305, 25, 153, 28);
 		panel.add(fileFormatComboBox);
 			
 		JButton browseButton = new JButton("Browse");
 		browseButton.setToolTipText("Browse a location from computer.");
-		browseButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		browseButton.setFont(new RobotoFont(16).mediumRoboto());
 		browseButton.setActionCommand("OK");
 		browseButton.setBounds(305, 82, 100, 30);
 		panel.add(browseButton);
@@ -110,11 +111,9 @@ public class ExportDialogBox extends JDialog {
 
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				int returnVal = chooser.showOpenDialog(browseButton);
+				int returnVal = chooser.showOpenDialog(null);
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 					String fileLocation = chooser.getSelectedFile().getAbsolutePath();
-					String fileFormat = (String) fileFormatComboBox.getSelectedItem();
-					setFileFormat(fileFormat);
 					setFileLocation(fileLocation);
 					validLabel.setVisible(true);
 					tickLabel.setVisible(true);
@@ -128,26 +127,35 @@ public class ExportDialogBox extends JDialog {
 		buttonPane.setLayout(null);
 
 		JButton okButton = new JButton("OK");
-		okButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		okButton.setFont(new RobotoFont(16).mediumRoboto());
 		okButton.setBounds(325, 10, 100, 30);
 		okButton.setActionCommand("OK");
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
 		okButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				Operation operation = new Operation(phonebook);
-				try {
-					operation.exportContact(fileFormat,fileLocation);
-				} catch (IOException ex) {
-					throw new RuntimeException(ex);
+				String fileFormat = (String) fileFormatComboBox.getSelectedItem();
+				setFileFormat(fileFormat);
+				if (fileFormat.equals("Select a format.")){
+					JOptionPane.showMessageDialog(null,"Please select a valid file format.","Warning",JOptionPane.INFORMATION_MESSAGE);
+				} else if (fileLocation.equals("")){
+					JOptionPane.showMessageDialog(null,"Please select a valid file location.","Warning",JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					try {
+						Operation operation = new Operation(phonebook);
+						operation.exportContact(fileFormat,fileLocation);
+						dispose();
+						JOptionPane.showMessageDialog(null,"File export success!","Success",JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException ex) {
+						JOptionPane.showMessageDialog(null,"There is a problem when export the file.\nPlease try again.","Warning",JOptionPane.INFORMATION_MESSAGE);
+						throw new RuntimeException(ex);
+					}
 				}
-				dispose();
 			}
 		});
 
-
 		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cancelButton.setFont(new RobotoFont(16).mediumRoboto());
 		cancelButton.setBounds(185, 10, 100, 30);
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);

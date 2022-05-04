@@ -1,26 +1,12 @@
 package com;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.Vector;
-
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 public class DetailDialogBox extends JDialog {
 
@@ -36,6 +22,7 @@ public class DetailDialogBox extends JDialog {
 			DetailDialogBox dialog = new DetailDialogBox(phonebook, index);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setResizable(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -48,9 +35,9 @@ public class DetailDialogBox extends JDialog {
 		this.phonebook = phonebook;
 
 		this.setTitle("Detail of Contact");
-		this.setIconImage(new ImageIcon(AboutUs.class.getResource("/com/assets/contact (1).png")).getImage());
-		setLocationRelativeTo(null);
+		this.setIconImage(new ImageIcon(DetailDialogBox.class.getResource("/com/assets/contact (1).png")).getImage());
 		setBounds(100, 100, 551, 760);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -62,7 +49,7 @@ public class DetailDialogBox extends JDialog {
 			buttonPane.setLayout(null);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				okButton.setFont(new RobotoFont(16).mediumRoboto());
 				okButton.setBounds(215, 10, 100, 30);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -86,7 +73,7 @@ public class DetailDialogBox extends JDialog {
 			titlePanel.add(icon);
 			
 			JLabel detailLabel = new JLabel("Detail of Contact");
-			detailLabel.setFont(new Font("Tahoma", Font.PLAIN, 36));
+			detailLabel.setFont(new RobotoFont(36).boldRoboto());
 			detailLabel.setBounds(190, 19, 287, 51);
 			titlePanel.add(detailLabel);
 			
@@ -96,20 +83,20 @@ public class DetailDialogBox extends JDialog {
 			formPanel.setLayout(null);
 			
 			JLabel nameLabel = new JLabel("Name:");
-			nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			nameLabel.setFont(new RobotoFont(16).mediumRoboto());
 			nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 			nameLabel.setBounds(104, 11, 57, 28);
 			formPanel.add(nameLabel);
 			
 			JLabel genderLabel = new JLabel("Gender:");
 			genderLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			genderLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			genderLabel.setFont(new RobotoFont(16).mediumRoboto());
 			genderLabel.setBounds(104, 51, 57, 28);
 			formPanel.add(genderLabel);
 			
 			JLabel dobLabel = new JLabel("DOB:");
 			dobLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			dobLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			dobLabel.setFont(new RobotoFont(16).mediumRoboto());
 			dobLabel.setBounds(104, 91, 57, 28);
 			formPanel.add(dobLabel);
 			Vector day=new Vector();
@@ -130,83 +117,91 @@ public class DetailDialogBox extends JDialog {
 			
 			JLabel hpNo1Label = new JLabel("Mobile Phone No.:");
 			hpNo1Label.setHorizontalAlignment(SwingConstants.RIGHT);
-			hpNo1Label.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			hpNo1Label.setFont(new RobotoFont(16).mediumRoboto());
 			hpNo1Label.setBounds(10, 131, 151, 28);
 			formPanel.add(hpNo1Label);
 			
 			JLabel workLabel = new JLabel("Work Phone No.:");
 			workLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			workLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			workLabel.setFont(new RobotoFont(16).mediumRoboto());
 			workLabel.setBounds(10, 170, 151, 28);
 			formPanel.add(workLabel);
 			
 			JLabel homeLabel = new JLabel("Home Phone No.:");
 			homeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			homeLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			homeLabel.setFont(new RobotoFont(16).mediumRoboto());
 			homeLabel.setBounds(10, 209, 151, 28);
 			formPanel.add(homeLabel);
 			
 			JLabel emailAddress = new JLabel("Email Address:");
 			emailAddress.setHorizontalAlignment(SwingConstants.RIGHT);
-			emailAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			emailAddress.setFont(new RobotoFont(16).mediumRoboto());
 			emailAddress.setBounds(27, 248, 134, 28);
 			formPanel.add(emailAddress);
 			
 			JLabel addressLabel = new JLabel("Address:");
 			addressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			addressLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			addressLabel.setFont(new RobotoFont(16).mediumRoboto());
 			addressLabel.setBounds(27, 287, 134, 28);
 			formPanel.add(addressLabel);
 			
 			JLabel remarkLabel = new JLabel("Remark:");
 			remarkLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-			remarkLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			remarkLabel.setFont(new RobotoFont(16).mediumRoboto());
 			remarkLabel.setBounds(27, 405, 134, 28);
 			formPanel.add(remarkLabel);
 			
 			JLabel showName = new JLabel(phonebook.get(index).getName());
-			showName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			showName.setFont(new RobotoFont(16).mediumRoboto());
 			showName.setBounds(171, 11, 336, 28);
 			formPanel.add(showName);
 			
 			JLabel showGender = new JLabel(phonebook.get(index).getGender());
-			showGender.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			showGender.setFont(new RobotoFont(16).mediumRoboto());
 			showGender.setBounds(171, 51, 336, 28);
 			formPanel.add(showGender);
-			
-			JLabel showDOB = new JLabel(phonebook.get(index).getDobDate());
-			showDOB.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+			String dob = phonebook.get(index).getDobDate();
+			if (phonebook.get(index).getDobDate().equals("0/0/0")){
+				dob = " ";
+			}
+			JLabel showDOB = new JLabel(dob);
+			showDOB.setFont(new RobotoFont(16).mediumRoboto());
 			showDOB.setBounds(171, 91, 336, 28);
 			formPanel.add(showDOB);
 			
 			JLabel showMobilePhone = new JLabel(phonebook.get(index).getMobilePhone());
-			showMobilePhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			showMobilePhone.setFont(new RobotoFont(16).mediumRoboto());
 			showMobilePhone.setBounds(171, 131, 336, 28);
 			formPanel.add(showMobilePhone);
 			
 			JLabel showWorkPhone = new JLabel(phonebook.get(index).getWorkPhone());
-			showWorkPhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			showWorkPhone.setFont(new RobotoFont(16).mediumRoboto());
 			showWorkPhone.setBounds(171, 170, 336, 28);
 			formPanel.add(showWorkPhone);
 			
 			JLabel showHomePhone = new JLabel(phonebook.get(index).getHomePhone());
-			showHomePhone.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			showHomePhone.setFont(new RobotoFont(16).mediumRoboto());
 			showHomePhone.setBounds(171, 209, 336, 28);
 			formPanel.add(showHomePhone);
 			
 			JLabel showEmailAddress = new JLabel(phonebook.get(index).getEmail());
-			showEmailAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			showEmailAddress.setFont(new RobotoFont(16).mediumRoboto());
 			showEmailAddress.setBounds(171, 248, 336, 28);
 			formPanel.add(showEmailAddress);
 			
 			JLabel showAddress = new JLabel(phonebook.get(index).getAddress());
-			showAddress.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			showAddress.setBounds(171, 287, 336, 108);
+			showAddress.setFont(new RobotoFont(16).mediumRoboto());
+			showAddress.setBounds(171, 293, 336, 108);
+			showAddress.setHorizontalAlignment(SwingConstants.LEFT);
+			showAddress.setVerticalAlignment(SwingConstants.TOP);
 			formPanel.add(showAddress);
 			
 			JLabel showRemark = new JLabel(phonebook.get(index).getRemark());
-			showRemark.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			showRemark.setBounds(171, 405, 336, 155);
+			showRemark.setFont(new RobotoFont(16).mediumRoboto());
+			showRemark.setBounds(171, 411, 336, 155);
+			showRemark.setHorizontalAlignment(SwingConstants.LEFT);
+			showRemark.setVerticalAlignment(SwingConstants.TOP);
 			formPanel.add(showRemark);
 		}
 	}

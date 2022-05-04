@@ -23,6 +23,7 @@ public class AboutUs extends JDialog {
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
+			dialog.setResizable(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,7 +44,8 @@ public class AboutUs extends JDialog {
 		{
 			JLabel credit = new JLabel("<html><div style='text-align: center;'>This Phone Book Management System is done by Group 2<br>\r\n<br>\r\nBeh Kah Kheng AI200292<br>\r\nLim Yan Yun AI200051<br>\r\nAyani Chong Binti Muhammad Amin Chong AI200311<br>\r\nDivya a/l Murugan AI200166<br>\r\nKhoo Wen Bin CI200009<br>\r\nNur Hilda Binti Zaidi CI200037</html>");
 			credit.setHorizontalAlignment(SwingConstants.CENTER);
-			credit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			credit.setVerticalAlignment(SwingConstants.CENTER);
+			credit.setFont(new RobotoFont(19).boldRoboto());
 			credit.setBounds(10, 10, 521, 237);
 			contentPanel.add(credit);
 		}
@@ -53,7 +55,7 @@ public class AboutUs extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				okButton.setFont(new RobotoFont(16).mediumRoboto());
 				okButton.setLocation(215, 10);
 				okButton.setSize(100, 30);
 				okButton.addActionListener(new ActionListener() {
