@@ -5,9 +5,6 @@ public class Contact {
     private int id;
     private String name;
     private String gender;
-    private int dobDay;
-    private int dobMonth;
-    private int dobYear;
     private String mobilePhone;
     private String workPhone;
     private String homePhone;
@@ -17,28 +14,26 @@ public class Contact {
     private String dobDate;
 
 
-    //function to combine dobDay, dobMonth and dobYear to a date
+    //method to combine dobDay, dobMonth and dobYear to a date (String)
     public String generateDOBDate(int dobDay, int dobMonth, int dobYear) {
         String day = Integer.toString(dobDay);
         String month = Integer.toString(dobMonth);
         String year = Integer.toString(dobYear);
 
+        //if day or month or year is unknown then the date will be set to 0/0/0
         if (dobDay == 0 || dobMonth == 0 || dobYear ==0){
             return "0/0/0";
         } else {
+            //else it will be set to dd/MM/YYYY format
             return day + "/" + month + "/" + year;
         }
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    //function to set all attribute
-    //I know this is a very bad habit, but I lazy to think other way
+    //method to set all attribute into the contacts
     public void setAttribute(String name, String gender, int dobDay, int dobMonth, int dobYear, String mobilePhone, String workPhone, String homePhone, String email, String address, String remark) {
         this.name = name;
         this.gender = gender;
+        //the birthday day, month and year is combined become birthday date
         this.dobDate = generateDOBDate(dobDay, dobMonth, dobYear);
         this.mobilePhone = mobilePhone;
         this.workPhone = workPhone;
@@ -49,59 +44,59 @@ public class Contact {
         this.id = 1;
     }
 
+    //setter of id
     public void setID(int id){
         this.id = id;
     }
 
+    //getter for the birthday date
     public String getDobDate() {
         return dobDate;
     }
 
+    //getter for the address
     public String getAddress() {
         return address;
     }
 
+    //getter for the email
     public String getEmail() {
         return email;
     }
 
+    //getter for the gender
     public String getGender() {
         return gender;
     }
 
+    //getter for the name
     public String getName() {
         return name;
     }
 
+    //getter for the home phone
     public String getHomePhone() {
         return homePhone;
     }
 
+    //getter for the mobile phone
     public String getMobilePhone() {
         return mobilePhone;
     }
 
+    //getter for the work phone
     public String getWorkPhone() {
         return workPhone;
     }
 
+    //getter for the remark
     public String getRemark() {
         return remark;
     }
 
+    //getter for the id (in String)
     public String getId() {
         return Integer.toString(id);
     }
 
-    public int getDobDay() {
-        return dobDay;
-    }
-
-    public int getDobMonth() {
-        return dobMonth;
-    }
-
-    public int getDobYear() {
-        return dobYear;
-    }
 }
