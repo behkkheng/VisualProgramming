@@ -8,7 +8,7 @@ public class TableModel extends AbstractTableModel {
     private final LinkedList<Contact> phonebook;
 
     private String[][] data;
-    private final String[] column ={"No.","Name","Gender","DOB","Mobile Phone","Work Phone","Home Phone","Email","Address"};
+    private final String[] column ={"Id","Name","Gender","DOB","Mobile Phone","Work Phone","Home Phone","Email","Address"};
 
     //constructor set the instance variable phonebook and the data of the table
     public TableModel(LinkedList<Contact> phonebook){
@@ -20,11 +20,7 @@ public class TableModel extends AbstractTableModel {
     public void setData() {
         String[][] data = new String[phonebook.size()][9];
         for (int i=0; i< phonebook.size(); i++) {
-
-            //set index of table
-            int index = Integer.parseInt(phonebook.get(i).getId())+1;
-
-            data[i][0] = index +".";
+            data[i][0] = phonebook.get(i).getId();
             data[i][1] = phonebook.get(i).getName();
             data[i][2] = phonebook.get(i).getGender();
 
