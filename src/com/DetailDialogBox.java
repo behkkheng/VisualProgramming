@@ -195,19 +195,19 @@ public class DetailDialogBox extends JDialog {
 			formPanel.add(showEmailAddress);
 
 			//show the address of the contact
-			JLabel showAddress = new JLabel(phonebook.get(index).getAddress());
+			JTextArea showAddress = new JTextArea(phonebook.get(index).getAddress());
 			showAddress.setFont(new RobotoFont(16).mediumRoboto());
 			showAddress.setBounds(171, 293, 336, 108);
-			showAddress.setHorizontalAlignment(SwingConstants.LEFT);
-			showAddress.setVerticalAlignment(SwingConstants.TOP);
+			showAddress.setEditable(false);
+			showAddress.setLineWrap(true);
 			formPanel.add(showAddress);
 
 			//show the remark of the contact
-			JLabel showRemark = new JLabel(phonebook.get(index).getRemark());
+			JTextArea showRemark = new JTextArea(phonebook.get(index).getRemark());
 			showRemark.setFont(new RobotoFont(16).mediumRoboto());
 			showRemark.setBounds(171, 411, 336, 155);
-			showRemark.setHorizontalAlignment(SwingConstants.LEFT);
-			showRemark.setVerticalAlignment(SwingConstants.TOP);
+			showRemark.setEditable(false);
+			showRemark.setLineWrap(true);
 			formPanel.add(showRemark);
 		}
 	}
